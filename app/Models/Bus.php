@@ -24,7 +24,7 @@ class Bus extends Model
     public function getUsedSeat($date, $scheduleId) : array
     {
         $date = Carbon::parse($date)->format('Y-m-d');
-        return $this->busTicket()->whereDate('departure_time', $date)->where('bus_schedule_id',$scheduleId)->get()->pluck('seat_number')->toArray();
+        return $this->busTicket()->where('status','pending')->whereDate('departure_time', $date)->where('bus_schedule_id',$scheduleId)->get()->pluck('seat_number')->toArray();
     }
 
     public function getSeats($date, $scheduleId)
