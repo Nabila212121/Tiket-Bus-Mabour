@@ -58,12 +58,17 @@ class OrderController extends Controller
         if (!(auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))) {
             return abort(403, 'Unauthorized');
         }
-        $ticket->update([
-            'status' => 'approved'
-        ]);
-        $logo = base64_encode(file_get_contents(public_path('logo.png')));
-        $pdf = Pdf::loadView('users.print-ticket', compact('ticket','logo'));
-        $pdf->setPaper('a5', 'landscape');
-        return $pdf->stream();
+        if ($ticket->departure_time->format('Y-m-d') == now()->format('Y-m-d') && $ticket->status == 'pending') {
+            $ticket->update([
+                'status' => 'approved'
+            ]);
+            $logo = base64_encode(file_get_contents(public_path('logo.png')));
+            $pdf = Pdf::loadView('users.print-ticket', compact('ticket','logo'));
+            $pdf->setPaper('a5', 'landscape');
+            return $pdf->stream();
+        }else{
+            return abort(403, "Tiket Kadaluwarsa");
+        }
+       
     }
 }
