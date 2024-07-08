@@ -59,7 +59,7 @@ class Order extends Component implements HasForms
         $this->data['date'] = Carbon::parse($date)->format('d/m/Y');
         $this->data['schedule'] = $schedule->toArray();
         $this->form->fill($this->data);
-        $this->bookedSeats = BusTicket::where('user_id', auth()->id())->whereDate('departure_time', Carbon::now('Asia/Jakarta')->format('Y-m-d'))->count();
+        $this->bookedSeats = BusTicket::where('user_id', auth()->id())->whereIn('status',['pending','approved'])->whereDate('departure_time', Carbon::now('Asia/Jakarta')->format('Y-m-d'))->count();
     }
 
     public function form(Form $form): Form
