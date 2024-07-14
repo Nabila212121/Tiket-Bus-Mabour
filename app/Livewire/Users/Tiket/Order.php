@@ -59,7 +59,7 @@ class Order extends Component implements HasForms
         $this->data['date'] = Carbon::parse($date)->format('d/m/Y');
         $this->data['schedule'] = $schedule->toArray();
         $this->form->fill($this->data);
-        $this->bookedSeats = BusTicket::where('user_id', auth()->id())->whereIn('status',['pending','approved'])->whereDate('departure_time', Carbon::now('Asia/Jakarta')->format('Y-m-d'))->count();
+        $this->bookedSeats = BusTicket::where('user_id', auth()->id())->whereDate('created_at', Carbon::now('Asia/Jakarta')->format('Y-m-d'))->count();
     }
 
     public function form(Form $form): Form
@@ -83,207 +83,24 @@ class Order extends Component implements HasForms
                         Forms\Components\TextInput::make('date')->label('Tanggal')->disabled(),
                     ])->collapsible()->collapsed(true),
                 ])->columnSpan(1),
-                Forms\Components\Section::make('Pilih Kursi')->schema([
+                Forms\Components\Section::make('Pilih Kursi')->schema(function () {
+                    $seats = [];
+                    for ($i = 1; $i <= $this->bus->capacity; $i++) {
+                        // Checkbox::make('seat_number.30')->live()->disabled(function () {
+                        //     return in_array(30, $this->usedSeats);
+                        // })->afterStateUpdated(function ($set, $get) {
 
-                    Checkbox::make('seat_number.1')->live()->disabled(function () {
-                        return in_array(1, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 1);
-                    }),
-                    Checkbox::make('seat_number.2')->live()->disabled(function () {
-                        return in_array(2, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 2);
-                    }),
-                    Group::make(),
-                    Group::make([
-                        Placeholder::make('')->content(new HtmlString(
-                            '
-                            <div class="text-center bg-gray-400">
-                                <h1 class="text-xl font-bold">Supir</h1>
-                            </div>
-                            '
-                        ))->columnSpanFull()
-                    ])->columnSpan(2),
-                    Checkbox::make('seat_number.3')->live()->disabled(function () {
-                        return in_array(3, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 3);
-                    }),
-                    Checkbox::make('seat_number.4')->live()->disabled(function () {
-                        return in_array(4, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 4);
-                    }),
-                    Group::make(),
-                    Checkbox::make('seat_number.5')->live()->disabled(function () {
-                        return in_array(5, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 5);
-                    }),
-                    Checkbox::make('seat_number.6')->live()->disabled(function () {
-                        return in_array(6, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 6);
-                    }),
-                    Checkbox::make('seat_number.7')->live()->disabled(function () {
-                        return in_array(7, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 7);
-                    }),
-                    Checkbox::make('seat_number.8')->live()->disabled(function () {
-                        return in_array(8, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 8);
-                    }),
-                    Group::make(),
-                    Checkbox::make('seat_number.9')->live()->disabled(function () {
-                        return in_array(9, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 9);
-                    }),
-                    Checkbox::make('seat_number.10')->live()->disabled(function () {
-                        return in_array(10, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 10);
-                    }),
-                    Checkbox::make('seat_number.11')->live()->disabled(function () {
-                        return in_array(11, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 11);
-                    }),
-                    Checkbox::make('seat_number.12')->live()->disabled(function () {
-                        return in_array(12, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 12);
-                    }),
-                    Group::make(),
-                    Checkbox::make('seat_number.13')->live()->disabled(function () {
-                        return in_array(13, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 13);
-                    }),
-                    Checkbox::make('seat_number.14')->live()->disabled(function () {
-                        return in_array(14, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 14);
-                    }),
-                    Checkbox::make('seat_number.15')->live()->disabled(function () {
-                        return in_array(15, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 15);
-                    }),
-                    Checkbox::make('seat_number.16')->live()->disabled(function () {
-                        return in_array(16, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 16);
-                    }),
-                    Group::make(),
-                    Checkbox::make('seat_number.17')->live()->disabled(function () {
-                        return in_array(17, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 17);
-                    }),
-                    Checkbox::make('seat_number.18')->live()->disabled(function () {
-                        return in_array(18, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 18);
-                    }),
-                    Checkbox::make('seat_number.19')->live()->disabled(function () {
-                        return in_array(19, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 19);
-                    }),
-                    Checkbox::make('seat_number.20')->live()->disabled(function () {
-                        return in_array(20, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 20);
-                    }),
-                    Group::make(),
-                    Checkbox::make('seat_number.21')->live()->disabled(function () {
-                        return in_array(21, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 21);
-                    }),
-                    Checkbox::make('seat_number.22')->live()->disabled(function () {
-                        return in_array(22, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 22);
-                    }),
-                    Checkbox::make('seat_number.23')->live()->disabled(function () {
-                        return in_array(23, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 23);
-                    }),
-                    Checkbox::make('seat_number.24')->live()->disabled(function () {
-                        return in_array(24, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 24);
-                    }),
-                    Group::make(),
-                    Checkbox::make('seat_number.25')->live()->disabled(function () {
-                        return in_array(25, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 25);
-                    }),
-                    Checkbox::make('seat_number.26')->live()->disabled(function () {
-                        return in_array(26, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 26);
-                    }),
-                    Checkbox::make('seat_number.27')->live()->disabled(function () {
-                        return in_array(27, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 27);
-                    }),
-                    Checkbox::make('seat_number.28')->live()->disabled(function () {
-                        return in_array(28, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 28);
-                    }),
-                    Group::make(),
-                    Checkbox::make('seat_number.29')->live()->disabled(function () {
-                        return in_array(29, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 29);
-                    }),
-                    Checkbox::make('seat_number.30')->live()->disabled(function () {
-                        return in_array(30, $this->usedSeats);
-                    })->afterStateUpdated(function ($set, $get) {
-
-                        $this->updatedSelectedSeats($set, $get, 30);
-                    }),
-
-                ])->columns([
+                        //     $this->updatedSelectedSeats($set, $get, 30);
+                        // }),
+                        $seats[] = Checkbox::make('seat_number.' . $i)
+                            ->live()
+                            ->disabled(in_array($i, $this->usedSeats))
+                            ->afterStateUpdated(function ($set, $get) use ($i) {
+                                $this->updatedSelectedSeats($set, $get, $i);
+                            });
+                    }
+                    return $seats;
+                })->columns([
                     'default' => 5,
                     'sm' => 5,
                     'md' => 5,

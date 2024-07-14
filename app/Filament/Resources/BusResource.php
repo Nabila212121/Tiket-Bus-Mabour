@@ -40,11 +40,8 @@ class BusResource extends Resource
                         Forms\Components\TextInput::make('license_plate')
                             ->label('Plat Nomor')
                             ->maxLength(255),
-                        Forms\Components\Select::make('capacity')
+                        Forms\Components\TextInput::make('capacity')
                             ->label('Kapasitas')
-                            ->options([
-                                30 => '30',
-                            ])
                             ->required(),
                     ])->columns(2),
                     Forms\Components\FileUpload::make('image')
