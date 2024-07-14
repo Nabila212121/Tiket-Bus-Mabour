@@ -48,7 +48,7 @@ class OrderController extends Controller
     public function printTicket(BusTicket $ticket)
     {
         $logo = base64_encode(file_get_contents(public_path('logo.png')));
-        $pdf = Pdf::loadView('users.print-ticket', compact('ticket','logo'));
+        $pdf = Pdf::loadView('users.print-ticket', compact('ticket', 'logo'));
         $pdf->setPaper('a5', 'landscape');
         return $pdf->stream();
     }
@@ -62,13 +62,10 @@ class OrderController extends Controller
             $ticket->update([
                 'status' => 'approved'
             ]);
-            $logo = base64_encode(file_get_contents(public_path('logo.png')));
-            $pdf = Pdf::loadView('users.print-ticket', compact('ticket','logo'));
-            $pdf->setPaper('a5', 'landscape');
-            return $pdf->stream();
-        }else{
-            return abort(403, "Tiket Kadaluwarsa");
         }
-       
+        $logo = base64_encode(file_get_contents(public_path('logo.png')));
+        $pdf = Pdf::loadView('users.print-ticket', compact('ticket', 'logo'));
+        $pdf->setPaper('a5', 'landscape');
+        return $pdf->stream();
     }
 }
