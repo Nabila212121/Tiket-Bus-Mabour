@@ -131,7 +131,8 @@
             }
 
             let htmlscanner = new Html5QrcodeScanner(
-                "my-qr-reader", {
+                "my-qr-reader", {  
+                    // tempat di mana scanner akan ditampilkan.
                     fps: 10,
                     qrbos: 250
                 }

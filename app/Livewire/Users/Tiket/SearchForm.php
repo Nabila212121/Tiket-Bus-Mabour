@@ -42,7 +42,7 @@ class SearchForm extends Component implements HasForms
         $date = now();
         $dayOfWeek = $date->format('l'); // Mengambil nama hari dalam bahasa Inggris
     
-        if ($dayOfWeek == 'Friday' || $dayOfWeek == 'Thursday') {
+        if ($dayOfWeek == 'Wednesday' || $dayOfWeek == 'Thursday') {
             return true;
         } else {
             return false;
@@ -104,13 +104,14 @@ class SearchForm extends Component implements HasForms
     {
         $data = $this->form->getState();
         $date = $this->date->format('Y-m-d');
-       if ($data['bus_schedule_id'] == null) {
+       if ($data['bus_schedule_id'] == null) { //validasi data apakah jadwal bus sudah dipilih oleh pengguna
             Notification::make()->title('Peringatan')->body('Jadwal tidak boleh kosong')->danger()->send();
         } else {
             $bus = Bus::whereHas('busSchedules', function ($query) use ($data) {
                 $query->where('bus_schedule_id', $data['bus_schedule_id']);
-            })->where('active', true)->get();
+            })->where('active', true)->get(); //Mengambil data bus yang memiliki jadwal sesuai yg dipilih
 
+            //Memproses bus yang ditemukan dan menghitung kursi yang tersedia
             $bus = $bus->map(function ($item) use ($data, $date) {
                 $item->seats = $item->getSeats($date, $data['bus_schedule_id']);
                 return $item;

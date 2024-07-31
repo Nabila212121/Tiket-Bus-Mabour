@@ -10,6 +10,7 @@ use App\Models\Bus;
 use App\Models\BusSchedule;
 use App\Models\BusTicket;
 use Barryvdh\DomPDF\Facade\Pdf;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class OrderController extends Controller
 {
@@ -58,14 +59,18 @@ class OrderController extends Controller
         if (!(auth()->user()->hasRole('admin') || auth()->user()->hasRole('superadmin'))) {
             return abort(403, 'Unauthorized');
         }
-        if ($ticket->departure_time->format('Y-m-d') == now()->format('Y-m-d') && $ticket->status == 'pending') {
+        // dd($ticket->departure_time->format('Y-m-d'), now()->format('Y-m-d'), $ticket->status);
+        if ($ticket->departure_time->format('Y-m-d') == now()->format('Y-m-d') && $ticket->status == 'pending') 
+        {
             $ticket->update([
                 'status' => 'approved'
             ]);
-        }
-        $logo = base64_encode(file_get_contents(public_path('logo.png')));
-        $pdf = Pdf::loadView('users.print-ticket', compact('ticket', 'logo'));
-        $pdf->setPaper('a5', 'landscape');
-        return $pdf->stream();
+        
+            $logo = base64_encode(file_get_contents(public_path('logo.png')));
+            $pdf = Pdf::loadView('users.print-ticket', compact('ticket', 'logo'));
+            $pdf->setPaper('a5', 'landscape');
+            return $pdf->stream();
     }
+
+}
 }

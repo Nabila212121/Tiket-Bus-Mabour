@@ -26,7 +26,7 @@ class ListUsers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->label('Tambah User'),
+            Actions\CreateAction::make()->label('Tambah Penumpang'),
             Actions\Action::make('download')
                 ->label('Download Laporan')
                 ->color('success')

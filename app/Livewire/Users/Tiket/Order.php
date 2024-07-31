@@ -47,8 +47,7 @@ class Order extends Component implements HasForms
     public $availableSeats = [];
 
 
-
-    public function mount($bus, $date, $schedule)
+    public function mount($bus, $date, $schedule) //inisialisasi data
     {
         $this->bus = $bus;
         $this->usedSeats = $bus->seats['used'];
@@ -59,7 +58,11 @@ class Order extends Component implements HasForms
         $this->data['date'] = Carbon::parse($date)->format('d/m/Y');
         $this->data['schedule'] = $schedule->toArray();
         $this->form->fill($this->data);
-        $this->bookedSeats = BusTicket::where('user_id', auth()->id())->where('status','pending')->whereDate('created_at', Carbon::now('Asia/Jakarta')->format('Y-m-d'))->count();
+        $this->bookedSeats = BusTicket::where('user_id', auth()->id())
+            ->whereIn('status', ['pending', 'approved'])
+            ->whereDate('created_at', Carbon::now('Asia/Jakarta')
+            ->format('Y-m-d'))
+            ->count();
     }
 
     public function form(Form $form): Form
@@ -83,20 +86,16 @@ class Order extends Component implements HasForms
                         Forms\Components\TextInput::make('date')->label('Tanggal')->disabled(),
                     ])->collapsible()->collapsed(true),
                 ])->columnSpan(1),
+                
                 Forms\Components\Section::make('Pilih Kursi')->schema(function () {
                     $seats = [];
-                    for ($i = 1; $i <= $this->bus->capacity; $i++) {
-                        // Checkbox::make('seat_number.30')->live()->disabled(function () {
-                        //     return in_array(30, $this->usedSeats);
-                        // })->afterStateUpdated(function ($set, $get) {
-
-                        //     $this->updatedSelectedSeats($set, $get, 30);
-                        // }),
-                        $seats[] = Checkbox::make('seat_number.' . $i)
+                    for ($i = 1; $i <= $this->bus->capacity; $i++) 
+                    {
+                        $seats[] = Checkbox::make('seat_number.' . $i) //setiap kursi memiliki nama yang uniq
                             ->live()
                             ->disabled(in_array($i, $this->usedSeats))
                             ->afterStateUpdated(function ($set, $get) use ($i) {
-                                $this->updatedSelectedSeats($set, $get, $i);
+                                $this->updatedSelectedSeats($set, $get, $i); //memperbarui status kursi yang dipilih
                             });
                     }
                     return $seats;
@@ -152,17 +151,18 @@ class Order extends Component implements HasForms
     public function updatedSelectedSeats($set, $get, $index)
     {
         $count = 0;
-        for ($i = 1; $i <= sizeof($get('seat_number') ?? []); $i++) {
-            if ($get('seat_number.' . $i) == true) {
-                $this->selectedSeats[$i] = true;
+        for ($i = 1; $i <= sizeof($get('seat_number') ?? []); $i++) { //Looping melalui semua kursi yang ada
+            if ($get('seat_number.' . $i) == true) { //Jika kursi dipilih (nilai true)
+                $this->selectedSeats[$i] = true; //Simpan kursi yang dipilih ke dalam array selectedSeats
                 $count++;
             } else {
-                $this->selectedSeats[$i] = false;
+                $this->selectedSeats[$i] = false; //Jika kursi tidak dipilih, set nilai false di array selectedSeats
             }
         }
+        //Jika jumlah kursi yang dipilih melebihi batas (5 kursi dikurangi yang sudah dipesan)
         if ($count > (5 - $this->bookedSeats)) {
-            $set('seat_number.' . $index, false);
-            Notification::make('error')->title('Gagal')->body('Maksimal 5 kursi untuk satu hari')->danger()->send();
+            $set('seat_number.' . $index, false); //Batalkan pilihan kursi yang melebihi batas
+            Notification::make('error')->title('Gagal')->body('Maksimal 5 kursi untuk satu hari')->danger()->send(); //notif
             return;
         }
     }

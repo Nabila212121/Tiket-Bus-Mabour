@@ -92,7 +92,7 @@ class BusTicketResource extends Resource
                             ->required(),
                         Forms\Components\TextInput::make('customer_name'),
                         Forms\Components\Select::make('user_id')
-                            ->label('User')
+                            ->label('Pengguna')
                             ->native(false)
                             ->searchable()
                             ->default(Auth::user()->id)

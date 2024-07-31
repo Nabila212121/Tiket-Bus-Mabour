@@ -38,13 +38,12 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', LogoutController::class)
         ->name('logout');
-    
-    
-    Route::get('/my-tiket',[OrderController::class, 'myTiket'])->name('my-tiket');
-    Route::get('/my-tiket/{ticket}',[OrderController::class, 'printTicket'])->name('my-tiket.print');
-    Route::get('/my-tiket/{ticket}/verify',[OrderController::class, 'verifyTicket'])->name('my-tiket.verify');
-
-    Route::get('/tiket/{order}', [OrderController::class, 'order'])->name('order');
+    Route::middleware('verified')->group(function (){
+        Route::get('/my-tiket',[OrderController::class, 'myTiket'])->name('my-tiket');
+        Route::get('/my-tiket/{ticket}',[OrderController::class, 'printTicket'])->name('my-tiket.print');
+        Route::get('/my-tiket/{ticket}/verify',[OrderController::class, 'verifyTicket'])->name('my-tiket.verify');
+        Route::get('/tiket/{order}', [OrderController::class, 'order'])->name('order');
+    });
 });
 
 
