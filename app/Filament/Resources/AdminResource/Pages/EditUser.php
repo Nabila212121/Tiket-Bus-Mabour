@@ -19,10 +19,16 @@ class EditUser extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> f5e9f0b65f4f6f890ee169379c896ed5aacec558
     protected function getRedirectUrl(): string
     {
         return $this->previousUrl ?? $this->getResource()::getUrl('index');
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> f5e9f0b65f4f6f890ee169379c896ed5aacec558
 }
