@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Web\OrderController;
+use App\Http\Middleware\EnsureUserIsVerifiedOrGuest;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Passwords\Confirm;
 use App\Livewire\Auth\Passwords\Email;
@@ -27,9 +28,9 @@ use Illuminate\Support\Facades\Route;
 // Route::view('/', 'welcome')->name('welcome');
 
 
-Route::view('/', 'users.home')->name('home');
-Route::view('/tiket', 'users.tiket')->name('tiket');
-Route::view('/rute', 'users.rute')->name('rute');
+Route::view('/', 'users.home')->name('home')->middleware([EnsureUserIsVerifiedOrGuest::class]);
+Route::view('/tiket', 'users.tiket')->name('tiket')->middleware([EnsureUserIsVerifiedOrGuest::class]);
+Route::view('/rute', 'users.rute')->name('rute')->middleware([EnsureUserIsVerifiedOrGuest::class]);
 
 Route::middleware('auth')->group(function () {
     Route::get('email/verify/{id}/{hash}', EmailVerificationController::class)
@@ -40,11 +41,11 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
     
     
-    Route::get('/my-tiket',[OrderController::class, 'myTiket'])->name('my-tiket');
-    Route::get('/my-tiket/{ticket}',[OrderController::class, 'printTicket'])->name('my-tiket.print');
-    Route::get('/my-tiket/{ticket}/verify',[OrderController::class, 'verifyTicket'])->name('my-tiket.verify');
+    Route::get('/my-tiket',[OrderController::class, 'myTiket'])->name('my-tiket')->middleware([EnsureUserIsVerifiedOrGuest::class]);
+    Route::get('/my-tiket/{ticket}',[OrderController::class, 'printTicket'])->name('my-tiket.print')->middleware([EnsureUserIsVerifiedOrGuest::class]);
+    Route::get('/my-tiket/{ticket}/verify',[OrderController::class, 'verifyTicket'])->name('my-tiket.verify')->middleware([EnsureUserIsVerifiedOrGuest::class]);
 
-    Route::get('/tiket/{order}', [OrderController::class, 'order'])->name('order');
+    Route::get('/tiket/{order}', [OrderController::class, 'order'])->name('order')->middleware([EnsureUserIsVerifiedOrGuest::class]);
 });
 
 

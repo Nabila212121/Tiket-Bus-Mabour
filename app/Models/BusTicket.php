@@ -30,12 +30,12 @@ class BusTicket extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function getQrImageAttribute()
     {
-        return "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=".url('/my-tiket/'.$this->id);
+        return "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=".url('/my-tiket/'.$this->id.'/verify');
     }
 
     public function getQrAttribute()
@@ -55,29 +55,36 @@ class BusTicket extends Model
 
     public function getStatusTextAttribute()
     {
-
-
-        if ($this->status == 'canceled') {
+        if ($this->status == 'canceled') 
+        {
             return 'Dibatalkan';
         }
-
+        
         if ($this->is_expired) {
-            if ($this->status == 'pending') {
+            if ($this->status == 'pending') 
+            {
                 $this->update(['status' => 'rejected']);
-            }else if($this->status == 'approved'){
+            }
+            else if($this->status == 'approved')
+            {
                 return 'Diberangkatkan';
             }
             return 'Kadaluwarsa';
         }
-        if ($this->departure_time->format('Y-m-d') == now()->format('Y-m-d')) {
+        if ($this->departure_time->format('Y-m-d') == now()->format('Y-m-d')) 
+        {
+            if ($this->status == 'pending') 
+            {
+                return 'Menunggu Keberangkatan';
+            }
+            if($this->status == 'approved')
+            {
+                return 'Diberangkatkan';
+            }
             return 'Hari Ini';
         }
-        if ($this->departure_time->isTomorrow()) {
-            return 'Besok';
-        }
-        if ($this->status == 'pending') {
-            return 'Menunggu Keberangkatan';
-        }
+        return 'Belum Terdefinisi';
+    
     }
 
     public function getStatusColorAttribute()
@@ -93,7 +100,7 @@ class BusTicket extends Model
             return 'green';
         }
         if ($this->is_expired) {
-            return 'red';
+            return 'gray';
         }
         if ($this->status == 'pending') {
             return 'orange';

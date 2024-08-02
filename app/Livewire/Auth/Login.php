@@ -33,6 +33,10 @@ class Login extends Component
         }
 
         $user = User::find(Auth::id());
+        // if ($user->email_verified_at==null)
+        // {
+        //     return redirect()->route('verification.notice');
+        // }
 
         if (!($user->hasRole('admin') || $user->hasRole('superadmin'))) {
             $user->assignRole('user');

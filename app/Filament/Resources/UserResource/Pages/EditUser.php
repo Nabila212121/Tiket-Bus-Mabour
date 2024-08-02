@@ -11,7 +11,7 @@ class EditUser extends EditRecord
     protected static string $resource = UserResource::class;
 
 
-    protected static ?string $title = 'Edit User';
+    protected static ?string $title = 'Edit Penumpang';
 
     protected function getHeaderActions(): array
     {
@@ -19,4 +19,10 @@ class EditUser extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->previousUrl ?? $this->getResource()::getUrl('index');
+    }
+
 }

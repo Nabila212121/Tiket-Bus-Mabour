@@ -13,7 +13,7 @@ class CreateUser extends CreateRecord
     protected static string $resource = UserResource::class;
 
 
-    protected static ?string $title = 'Tambah User';
+    protected static ?string $title = 'Tambah Penumpang';
 
     /**
      * @param  array<string, mixed>  $data

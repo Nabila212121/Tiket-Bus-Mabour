@@ -17,6 +17,7 @@
                 <img class="h-11" src="{{asset('logo.png')}}" alt="Dishub">
                 <h1 class="mt-10 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Pesan sekarang</h1>
                 <p class="mt-6 text-lg leading-8 text-gray-600">Pengalaman unik untuk menjelajahi keindahan dan kekayaan budaya Kota Madiun dengan kenyamanan bus khusus kami. Temukan pesona kota ini dari sudut-sudut yang berbeda, mulai dari landmark sejarah hingga kuliner lokal yang menggugah selera.</p>
+                <br><br>Pengguna dapat melakukan pemesanan maksimal 5 kursi untuk satu hari.
                 @livewire('users.tiket.search-form')
             </div>
             <div class="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32">

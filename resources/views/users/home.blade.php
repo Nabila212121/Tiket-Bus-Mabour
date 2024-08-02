@@ -26,7 +26,9 @@
                             <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">E-Tiket Madiun Bus On Tour</h1>
                             <br>
                             <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Mabour</h1>
-                            <p class="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">Dapatkan tiket bus Mabour dengan lebih mudah dan praktis melalui website pemesanan. Sekarang Anda dapat melakukan reservasi kapan saja dan di mana saja dengan hanya beberapa klik. Nikmati kenyamanan memesan tiket bus tanpa harus antri atau berkunjung langsung ke loket. Jangan lewatkan kesempatan untuk merencanakan perjalanan Anda dengan lebih fleksibel dan efisien melalui layanan reservasi online yang disediakan oleh Mabour.</p>
+                            <p class="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">Dapatkan tiket bus Mabour dengan lebih mudah dan praktis melalui website pemesanan. Sekarang Anda dapat melakukan reservasi kapan saja dan di mana saja dengan hanya beberapa klik. Nikmati kenyamanan memesan tiket bus tanpa harus antri atau berkunjung langsung ke loket. 
+                            Jangan lewatkan kesempatan untuk merencanakan perjalanan Anda dengan lebih fleksibel dan efisien melalui layanan reservasi online yang disediakan oleh Mabour.
+                            </p>
                             <div class="mt-10 flex items-center gap-x-6">
                                 <a href="/tiket" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Pesan Sekarang</a>
                                 <a href="#pemesanan" class="text-sm font-semibold leading-6 text-gray-900">Cara Pemesanan <span aria-hidden="true">→</span></a>
@@ -79,8 +81,8 @@
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="mx-auto max-w-2xl text-center">
                     <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">CARA PEMESANAN</h2>
-                    <p class="mt-2 text-lg leading-8 text-gray-600">Cari tahu bagaimana cara pemesanan E-Tiket Bus Mabour</p>
-                </div>
+                    <p class="mt-2 text-lg leading-8 text-gray-600">Pemesanan hanya bisa dilakukan di hari operasional bis yaitu hari Jumat dan Sabtu.</p>
+                </div><br>
                 <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
 
                     <article class="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
@@ -90,13 +92,14 @@
                         <h3 class="mt-3 text-lg font-semibold leading-6 text-white">
                             <a href="#">
                                 <span class="absolute inset-0"></span>
-                                Pilih rincian perjalanan
+                                Pilih jadwal perjalanan
                             </a>
                         </h3>
                         <div class="text-sm leading-6 text-gray-300">
                             <div class="flex items-center gap-x-4">
                                 <div class="flex gap-x-2.5">
-                                    Masukkan tanggal perjalanan dan kemudian klik 'Cari' untuk melihat jadwal keberangkatan bus Mabour.
+                                    
+                                    Pilih kloter dan waktu keberangkatan, kemudian klik 'Cari' untuk melihat kuota kursi bus Mabour.
                                 </div>
                             </div>
                         </div>
@@ -109,13 +112,13 @@
                         <h3 class="mt-3 text-lg font-semibold leading-6 text-white">
                             <a href="#">
                                 <span class="absolute inset-0"></span>
-                                Pilih bis dan tempat duduk anda
+                                Pilih tempat duduk anda
                             </a>
                         </h3>
                         <div class="text-sm leading-6 text-gray-300">
                             <div class="flex items-center gap-x-4">
                                 <div class="flex gap-x-2.5">
-                                    Pilih kloter dan waktu keberangkatan, tempat duduk lalu klik 'Pesan'
+                                    Pilih tempat duduk dan masukkan identitas anda lalu klik 'Pesan'
                                 </div>
                             </div>
                         </div>
