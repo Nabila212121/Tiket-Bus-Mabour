@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/my-tiket',[OrderController::class, 'myTiket'])->name('my-tiket')->middleware([EnsureUserIsVerifiedOrGuest::class]);
     Route::get('/my-tiket/{ticket}',[OrderController::class, 'printTicket'])->name('my-tiket.print')->middleware([EnsureUserIsVerifiedOrGuest::class]);
-    Route::get('/my-tiket/{ticket}/verify',[OrderController::class, 'verifyTicket'])->name('my-tiket.verify')->middleware([EnsureUserIsVerifiedOrGuest::class]);
+    Route::get('/my-tiket/{ticket}/verify',[OrderController::class, 'verifyTicket'])->name('my-tiket.verify');
 
     Route::get('/tiket/{order}', [OrderController::class, 'order'])->name('order')->middleware([EnsureUserIsVerifiedOrGuest::class]);
 });
